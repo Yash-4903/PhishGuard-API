@@ -38,6 +38,6 @@ def process_dataset(csv_file):
     return final_df
 
 if __name__ == "__main__":
-    processed_data = process_dataset("/Users/yashvardhansinghsolanki/Desktop/Github/PhishGuard/data_collection/phishing_data.csv")
+    processed_data = process_dataset("phishing_data.csv")
     processed_data.to_csv("processed_data.csv", index=False)
     print(f"✅ Processed {len(processed_data)} URLs and saved feature data!")
