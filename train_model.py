@@ -5,7 +5,7 @@ from sklearn.metrics import accuracy_score
 import joblib
 
 # Load processed data
-df = pd.read_csv("/Users/yashvardhansinghsolanki/Desktop/Github/PhishGuard/ml_model/processed_data.csv")
+df = pd.read_csv("processed_data.csv")
 
 # Define input features and labels
 X = df.drop(columns=["URL"])  # Drop URL column
