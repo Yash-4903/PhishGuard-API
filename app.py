@@ -1,11 +1,12 @@
 from flask import Flask, request, jsonify
+import pandas as pd
 import joblib
 import re
 
 app = Flask(__name__)
 
 # Load the trained model
-model = joblib.load("phishing_model.pkl")
+model = joblib.load("/Users/yashvardhansinghsolanki/Desktop/Github/PhishGuard/ml_model/phishing_model.pkl")
 
 # Feature extraction function
 def extract_features(url):
@@ -20,20 +21,20 @@ def extract_features(url):
         1 if url.startswith("https") else 0
     ]
 
-@app.route("/predict", methods=["POST"])
+@app.route('/predict', methods=['POST'])
 def predict():
-    data = request.get_json()
-    
-    if "url" not in data:
-        return jsonify({"error": "No URL provided"}), 400
+    data = request.json
+    features = ['url_length', 'has_ip', 'contains_at_symbol', 'has_https', 'domain_age']  # <-- match your model features
 
-    url = data["url"]
-    features = extract_features(url)
-    
-    # Predict using the model
-    prediction = model.predict([features])[0]
-    
-    return jsonify({"url": url, "is_phishing": bool(prediction)})
+    input_df = pd.DataFrame([data], columns=features)  # wrap in a list to create 1 row
+
+    prediction = model.predict(input_df)[0]
+
+    result = {
+        "is_phishing": bool(prediction),
+        "url": data.get("url", "N/A")
+    }
+    return jsonify(result)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)  # Use port 10000 for Render
