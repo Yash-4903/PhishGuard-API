@@ -6,7 +6,7 @@ import re
 app = Flask(__name__)
 
 # Load the trained model
-model = joblib.load("/Users/yashvardhansinghsolanki/Desktop/Github/PhishGuard/ml_model/phishing_model.pkl")
+model = joblib.load("phishing_model.pkl")
 
 # Feature extraction function
 def extract_features(url):
